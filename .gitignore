@@ -172,3 +172,12 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# Datasets, archives, checkpoints and wandb logs (do not push datasets to GitHub!)
+tiny-imagenet/
+*.zip
+data/*
+!data/.gitkeep
+checkpoints/*.pth
+wandb/
