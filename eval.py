@@ -1,4 +1,9 @@
+import os
 import torch
+from torch import nn
+
+from models.customnet import CustomNet
+from dataset.tiny_imagenet import get_dataloaders
 
 
 # Validation loop
@@ -26,3 +31,15 @@ def validate(model, val_loader, criterion):
     print(f'Validation Loss: {val_loss:.6f} Acc: {val_accuracy:.2f}%')
     return val_accuracy
 
+
+if __name__ == '__main__':
+    _, val_loader, _, _ = get_dataloaders(batch_size=32)
+    model = CustomNet().cuda()
+    criterion = nn.CrossEntropyLoss()
+
+    checkpoint_path = 'checkpoints/best_model.pth'
+    if os.path.exists(checkpoint_path):
+        model.load_state_dict(torch.load(checkpoint_path))
+        print(f'Loaded model weights from {checkpoint_path}')
+
+    validate(model, val_loader, criterion)
